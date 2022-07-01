@@ -15,10 +15,10 @@ public class T2 implements Runnable {
 		int andDecrement = count.getAndDecrement();
 		System.out.println(Thread.currentThread().getName() + " count= " + andDecrement);
 	}
-	
+
 	public static void main(String[] args) {
 		T2 t = new T2();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 			new Thread(t, "Thread" + i).start();
 		}
 	}

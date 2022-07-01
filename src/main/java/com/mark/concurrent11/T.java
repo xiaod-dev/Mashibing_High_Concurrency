@@ -22,24 +22,18 @@ public class T {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (count == 5) {
 				int i = 1 / 0;  // 此处抛出异常， 锁将被释放， 要不想被释放， 加catch，让循环继续
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		T t = new T();
-		Runnable r = new Runnable() {
-			
-			@Override
-			public void run() {
-				t.m();
-			}
-		};
+		Runnable r = () -> t.m();
 		new Thread(r, "t1").start();
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {

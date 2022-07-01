@@ -13,7 +13,7 @@ public class T2 implements Runnable {
 		// lock current object.
 		synchronized(T2.class) {
 			count --;
-			System.out.println(Thread.currentThread().getName() + "" + count);
+			System.out.println(Thread.currentThread().getName() + "|" + count);
 		}
 	}
 

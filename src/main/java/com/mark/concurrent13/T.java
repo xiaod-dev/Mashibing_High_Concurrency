@@ -19,25 +19,25 @@ public class T {
 			count ++;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		T t = new T();
 		List<Thread> threads = new ArrayList<>();
-		
+
 		for (int i = 0; i < 10; i ++) {
 			threads.add(new Thread(t::m, "thread-" + i));
 		}
-		
-		threads.forEach((o) -> o.start());
-		
-		threads.forEach((o) -> {
+
+		threads.forEach(Thread::start);
+
+		threads.forEach((thread) -> {
 			try {
-				o.join();
+				thread.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		});
-		
+
 		System.out.println(t.count);
 	}
 }

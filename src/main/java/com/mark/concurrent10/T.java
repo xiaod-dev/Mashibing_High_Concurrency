@@ -3,7 +3,7 @@ package com.mark.concurrent10;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 这里是继承中可能发生的情形，子类调用父类的同步方法， 锁定同一对象
+ * 这里是继承中可能发生的情形，子类调用父类的同步方法， 锁定`同一对象`
  * @author MarkShen
  */
 public class T {
@@ -16,7 +16,7 @@ public class T {
 		}
 		System.out.println("m1 end...");
 	}
-	
+
 	public static void main(String[] args) {
 		new TT().m1();
 	}

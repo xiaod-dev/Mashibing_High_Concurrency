@@ -7,15 +7,15 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 使用reentrantlock可以调用lockInterruptibly方法，可以对线程interrupt方法做出响应，
  * 在一个线程中等待锁的过程中， 可能被打断
- * 
+ *
  * @author MarkShen
  *
  */
 public class ReentrantLock4 {
-	
+
 	public static void main(String[] args) {
 		Lock lock = new ReentrantLock();
-		
+
 		Thread t1 = new Thread(() -> {
 			lock.lock();  // synchronized(this)
 			try {
@@ -29,13 +29,15 @@ public class ReentrantLock4 {
 			}
 		});
 		t1.start();
-		
+
 		Thread t2 = new Thread(() -> {
 			boolean locked = false; // 防止异常抛出
 			try {
 				// lock.lock();  // synchronized(this)
+                System.out.println("t2 before lockInterruptibly");
 				lock.lockInterruptibly();  // 可对interrupt()方法做出响应
-				// 防止异常抛出
+                System.out.println("t2 after lockInterruptibly");
+                // 防止异常抛出
 				locked = lock.tryLock();
 				System.out.println("t2 start");
 				TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
@@ -47,7 +49,7 @@ public class ReentrantLock4 {
 			}
 		});
 		t2.start();
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {

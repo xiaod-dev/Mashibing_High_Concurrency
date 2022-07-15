@@ -1,5 +1,6 @@
 package com.mark.concurrent20;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -9,21 +10,24 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author MarkShen
  */
 public class ReentrantLock5 extends Thread {
-	
+
 	private ReentrantLock lock = new ReentrantLock(true); // 参数为true为公平锁，请对比输入结果
-	
+
 	@Override
 	public void run() {
 		for (int i = 0; i < 100; i++) {
 			lock.lock();
 			try {
+                TimeUnit.MILLISECONDS.sleep(500);
 				System.out.println(Thread.currentThread().getName() + "获得锁");
-			} finally {
+			} catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
 				lock.unlock();
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		ReentrantLock5 r1 = new ReentrantLock5();
 		Thread t1 = new Thread(r1);

@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
  * @author MarkShen
  */
 public class T {
-	
+
 	Object o = new Object();
-	
+
 	void m() {
 		synchronized(o) {
 			while (true) {
@@ -25,10 +25,10 @@ public class T {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		T t = new T();
-		
+
 		// start first thread
 		new Thread(t::m, "t1").start();
 		try {
@@ -36,7 +36,7 @@ public class T {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		// create second thread
 		Thread t2 = new Thread(t::m, "t2"); // 锁对象发生改变，所以t2线程得以执行
 		t.o = new Object(); // 如果注释掉这句话，线程2将永远得不到执行

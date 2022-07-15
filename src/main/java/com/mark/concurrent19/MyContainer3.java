@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  *
  * 这里使用wait和notify做到， wait会释放锁， 而notify不会释放锁(被锁定对象的wait和notify方法)
  * 需要注意的是，运用这种方法，必须保证t2先执行，先让t2监听才可以
- * 
+ *
  * 阅读线面程序给出结果
  * 可以读到输出结果并不是size==5时， t2退出， 而是t1结束时通知t2才收到通知而退出
  * 想想为什么？？？
@@ -24,23 +24,23 @@ import java.util.concurrent.TimeUnit;
  * @author MarkShen
  */
 public class MyContainer3 {
-	
+
 	// 添加volatile，使t2可以得到通知
 	volatile List list = new ArrayList();
-	
+
 	public void add(Object o) {
 		list.add(o);
 	}
-	
+
 	public int size() {
 		return list.size();
 	}
-	
+
 	public static void main(String[] args) {
 		MyContainer3 c = new MyContainer3();
-		
+
 		final Object lock = new Object();
-		
+
 		new Thread(() -> {
 			synchronized(lock) {
 				System.out.println("t2 启动");
@@ -54,23 +54,24 @@ public class MyContainer3 {
 				System.out.println("t2 结束");
 			}
 		}, "t2").start();
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		new Thread(() -> {
 			synchronized(lock) {
 				for (int i=0; i<10; i++) {
 					c.add(new Object());
 					System.out.println("add " + i);
-					
+
 					if (c.size() == 5) {
+                        // notify不会释放锁！！！
 						lock.notify();
 					}
-					
+
 					try {
 						TimeUnit.SECONDS.sleep(1);
 					} catch (InterruptedException e) {

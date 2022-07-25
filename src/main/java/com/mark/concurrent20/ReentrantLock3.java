@@ -40,6 +40,7 @@ public class ReentrantLock3 {
 		System.out.println("m2......" + locked);
 		if (locked) lock.unlock();*/
         System.out.println("m2 start");
+        System.out.println("m2 start");
 
         boolean locked = lock.tryLock();
         try {
